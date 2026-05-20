@@ -17,57 +17,32 @@
 }
 html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 15px; overflow-x: hidden; }
 
-/* ── PASSWORD SCREEN ── */
-#lockscreen {
-  position: fixed; inset: 0; background: var(--bg);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  z-index: 9999; gap: 0;
-}
-.lock-box {
-  background: var(--bg2); border: 1px solid var(--border2);
-  padding: 36px 40px; width: 320px; display: flex; flex-direction: column; gap: 16px;
-}
-.lock-title {
-  font-family: 'Share Tech Mono', monospace; font-size: 11px;
-  color: var(--text3); letter-spacing: 2px; text-transform: uppercase;
-  border-bottom: 1px solid var(--border); padding-bottom: 12px;
-}
+#lockscreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+.lock-box { background: var(--bg2); border: 1px solid var(--border2); padding: 36px 40px; width: 320px; display: flex; flex-direction: column; gap: 16px; }
+.lock-title { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
 .lock-title span { color: var(--accent); }
 .lock-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
-.lock-input {
-  background: var(--bg3); border: 1px solid var(--border2); color: var(--text);
-  font-family: 'Share Tech Mono', monospace; font-size: 16px; letter-spacing: 4px;
-  padding: 10px 14px; width: 100%; outline: none; transition: border-color 0.15s;
-}
+.lock-input { background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-family: 'Share Tech Mono', monospace; font-size: 16px; letter-spacing: 4px; padding: 10px 14px; width: 100%; outline: none; transition: border-color 0.15s; }
 .lock-input:focus { border-color: var(--accent); }
 .lock-input.error { border-color: var(--red); animation: shake 0.3s; }
 @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
-.lock-btn {
-  background: rgba(79,142,247,0.15); border: 1px solid rgba(79,142,247,0.3);
-  color: var(--accent); font-family: 'Share Tech Mono', monospace; font-size: 11px;
-  letter-spacing: 2px; padding: 10px; cursor: pointer; transition: all 0.15s; text-transform: uppercase;
-}
+.lock-btn { background: rgba(79,142,247,0.15); border: 1px solid rgba(79,142,247,0.3); color: var(--accent); font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; padding: 10px; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
 .lock-btn:hover { background: rgba(79,142,247,0.25); }
 .lock-error { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--red); letter-spacing: 1px; min-height: 14px; }
-.lock-footer {
-  margin-top: 24px; font-family: 'Share Tech Mono', monospace;
-  font-size: 10px; color: var(--text3); letter-spacing: 1px;
-}
+.lock-footer { margin-top: 24px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1px; }
 
-/* ── MAIN APP ── */
 #app { display: none; height: 100vh; }
 .shell { display: grid; grid-template-rows: 42px 1fr; grid-template-columns: 200px 1fr; height: 100vh; }
 
-.topbar { grid-column: 1 / -1; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; gap: 0; z-index: 100; }
+.topbar { grid-column: 1 / -1; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; z-index: 100; }
 .topbar-logo { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--accent); letter-spacing: 1px; padding-right: 20px; border-right: 1px solid var(--border); white-space: nowrap; }
 .topbar-logo span { color: var(--text2); }
-.tabs { display: flex; height: 100%; margin-left: 4px; }
-.tab { display: flex; align-items: center; gap: 6px; padding: 0 18px; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.5px; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; text-transform: uppercase; user-select: none; border-right: 1px solid var(--border); }
+.tabs { display: flex; height: 100%; margin-left: 4px; overflow-x: auto; }
+.tab { display: flex; align-items: center; gap: 6px; padding: 0 16px; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.5px; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; text-transform: uppercase; user-select: none; border-right: 1px solid var(--border); white-space: nowrap; }
 .tab:hover { color: var(--text); background: var(--bg3); }
 .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(79,142,247,0.05); }
-.topbar-right { margin-left: auto; }
-.discord-btn { display: flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(88,101,242,0.15); border: 1px solid rgba(88,101,242,0.3); color: #7289da; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.5px; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+.topbar-right { margin-left: auto; flex-shrink: 0; }
+.discord-btn { display: flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(88,101,242,0.15); border: 1px solid rgba(88,101,242,0.3); color: #7289da; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
 .discord-btn:hover { background: rgba(88,101,242,0.25); }
 
 .sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; }
@@ -105,13 +80,41 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .tag-wip { background: rgba(247,201,79,0.15); color: var(--yellow); border: 1px solid rgba(247,201,79,0.3); }
 .tag-soon { background: rgba(79,142,247,0.1); color: var(--text3); border: 1px solid var(--border); }
 .game-thumb { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: linear-gradient(135deg, var(--bg), var(--bg3)); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
-.game-thumb::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(79,142,247,0.02) 20px, rgba(79,142,247,0.02) 21px); }
 .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 4px; opacity: 0; transition: opacity 0.15s; }
 .game-card:hover .play-overlay { opacity: 1; }
 .game-info { padding: 12px; }
 .game-name { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; margin-bottom: 4px; text-transform: uppercase; }
 .game-desc { font-size: 13px; color: var(--text2); line-height: 1.4; }
 .game-card.disabled { opacity: 0.4; pointer-events: none; }
+
+/* ── USEFUL PAGES ── */
+.site-card { background: var(--bg2); border: 1px solid var(--border); margin-bottom: 12px; overflow: hidden; }
+.site-card-top { padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.site-info { display: flex; flex-direction: column; gap: 4px; }
+.site-name { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--accent); letter-spacing: 1px; }
+.site-desc { font-size: 12px; color: var(--text2); font-family: 'Share Tech Mono', monospace; }
+.site-main-link { flex-shrink: 0; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--green); text-decoration: none; padding: 6px 12px; border: 1px solid rgba(61,220,132,0.3); background: rgba(61,220,132,0.08); transition: all 0.15s; white-space: nowrap; }
+.site-main-link:hover { background: rgba(61,220,132,0.18); }
+
+.dropdown { border-top: 1px solid var(--border); }
+.dropdown-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); letter-spacing: 1px; user-select: none; transition: background 0.1s; }
+.dropdown-toggle:hover { background: var(--bg3); color: var(--text); }
+.dropdown-arrow { transition: transform 0.2s; font-size: 10px; }
+.dropdown-body { display: none; padding: 8px 16px 12px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.2); }
+.dropdown-body.open { display: block; }
+.alt-link { display: block; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); text-decoration: none; padding: 5px 0; border-bottom: 1px solid var(--border); transition: color 0.1s; word-break: break-all; }
+.alt-link:last-child { border-bottom: none; }
+.alt-link:hover { color: var(--accent); }
+.alt-link::before { content: '▸ '; color: var(--text3); }
+
+.discord-warn { margin-top: 16px; background: var(--bg2); border: 1px solid rgba(247,201,79,0.2); }
+.discord-warn-toggle { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--yellow); letter-spacing: 1px; user-select: none; transition: background 0.1s; }
+.discord-warn-toggle:hover { background: var(--bg3); }
+.discord-warn-arrow { transition: transform 0.2s; font-size: 10px; }
+.discord-warn-body { display: none; padding: 12px 16px; border-top: 1px solid rgba(247,201,79,0.2); }
+.discord-warn-body.open { display: block; }
+.discord-warn-body a { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #7289da; text-decoration: none; }
+.discord-warn-body a:hover { text-decoration: underline; }
 
 .credits-card { background: var(--bg2); border: 1px solid var(--border); max-width: 500px; }
 .credits-card-header { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 8px 16px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; }
@@ -153,7 +156,8 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   <header class="topbar">
     <div class="topbar-logo">EDM<span>/</span>HUB</div>
     <nav class="tabs">
-      <div class="tab active" data-tab="games" onclick="switchTab('games')">◈ Juegos</div>
+      <div class="tab active" data-tab="games" onclick="switchTab('games')">◈ Proyectos de Godot</div>
+      <div class="tab" data-tab="useful" onclick="switchTab('useful')">◆ Páginas Útiles</div>
       <div class="tab" data-tab="credits" onclick="switchTab('credits')">◉ Créditos</div>
       <div class="tab" data-tab="source" onclick="switchTab('source')">◧ Código Fuente</div>
     </nav>
@@ -163,10 +167,12 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   </header>
 
   <aside class="sidebar">
-    <div class="sidebar-section">Juegos</div>
-    <div class="sidebar-item active" id="sb-todos" onclick="switchTab('games')"><div class="dot"></div> Todos <span class="badge">3</span></div>
-    <div class="sidebar-item" id="sb-disp" onclick="switchTab('games')"><div class="dot"></div> Disponibles <span class="badge">1</span></div>
-    <div class="sidebar-item" id="sb-dev" onclick="switchTab('games')"><div class="dot"></div> En desarrollo <span class="badge">2</span></div>
+    <div class="sidebar-section">Godot</div>
+    <div class="sidebar-item active" id="sb-games" onclick="switchTab('games')"><div class="dot"></div> Todos <span class="badge">3</span></div>
+    <div class="sidebar-item" id="sb-games2" onclick="switchTab('games')"><div class="dot"></div> Disponibles <span class="badge">1</span></div>
+    <div class="sidebar-item" id="sb-games3" onclick="switchTab('games')"><div class="dot"></div> En desarrollo <span class="badge">2</span></div>
+    <div class="sidebar-section" style="margin-top:12px">Páginas</div>
+    <div class="sidebar-item" id="sb-useful" onclick="switchTab('useful')"><div class="dot"></div> Útiles <span class="badge">3</span></div>
     <div class="sidebar-section" style="margin-top:12px">Info</div>
     <div class="sidebar-item" id="sb-credits" onclick="switchTab('credits')"><div class="dot"></div> Créditos</div>
     <div class="sidebar-item" id="sb-source" onclick="switchTab('source')"><div class="dot"></div> Código fuente</div>
@@ -174,13 +180,14 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 
   <main class="content">
 
+    <!-- PROYECTOS GODOT -->
     <div class="page active" id="page-games">
       <div class="page-header">
-        <div class="page-title">/ <span>juegos</span> / todos</div>
+        <div class="page-title">/ <span>proyectos de godot</span> / todos</div>
         <div class="status-pill"><div class="status-dot"></div> ONLINE</div>
       </div>
       <div class="stats-row">
-        <div class="stat-card"><div class="stat-label">Total juegos</div><div class="stat-value">03</div><div class="stat-sub">En el catálogo</div></div>
+        <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value">03</div><div class="stat-sub">En el catálogo</div></div>
         <div class="stat-card"><div class="stat-label">Disponibles</div><div class="stat-value" style="color:var(--green)">01</div><div class="stat-sub">Jugables ahora</div></div>
         <div class="stat-card"><div class="stat-label">En desarrollo</div><div class="stat-value" style="color:var(--yellow)">02</div><div class="stat-sub">Próximamente</div></div>
       </div>
@@ -203,6 +210,74 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
       </div>
     </div>
 
+    <!-- PÁGINAS ÚTILES -->
+    <div class="page" id="page-useful">
+      <div class="page-header">
+        <div class="page-title">/ <span>páginas útiles</span></div>
+        <div class="status-pill"><div class="status-dot"></div> 3 SITIOS</div>
+      </div>
+
+      <!-- Equinox -->
+      <div class="site-card">
+        <div class="site-card-top">
+          <div class="site-info">
+            <div class="site-name">Equinox</div>
+            <div class="site-desc">Navegador desbloqueado + multiusos</div>
+          </div>
+          <a href="https://main.synoserver.com" target="_blank" class="site-main-link">▶ ABRIR</a>
+        </div>
+        <div class="dropdown">
+          <div class="dropdown-toggle" onclick="toggleDropdown(this)">
+            ▸ ENLACES ALTERNATIVOS
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-body">
+            <a href="https://calcjsluu.vocations.pics/" target="_blank" class="alt-link">calcjsluu.vocations.pics</a>
+            <a href="https://74.208.202.111.nip.io/" target="_blank" class="alt-link">74.208.202.111.nip.io</a>
+            <a href="https://equal.bulls.ferrosider.com.ar/" target="_blank" class="alt-link">equal.bulls.ferrosider.com.ar</a>
+            <a href="https://eqbull.thongthaitextile.com/" target="_blank" class="alt-link">eqbull.thongthaitextile.com</a>
+            <a href="https://algebraic-expressions.with-hinkle.go.strangled.net/" target="_blank" class="alt-link">algebraic-expressions.with-hinkle.go.strangled.net</a>
+            <a href="https://storageforbulls.whencloudsfail.org/" target="_blank" class="alt-link">storageforbulls.whencloudsfail.org</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classroom 6x -->
+      <div class="site-card">
+        <div class="site-card-top">
+          <div class="site-info">
+            <div class="site-name">Classroom Pirata</div>
+            <div class="site-desc">Classroom pirata (juegos)</div>
+          </div>
+          <a href="https://sites.google.com/view/classroom6x/" target="_blank" class="site-main-link">▶ ABRIR</a>
+        </div>
+      </div>
+
+      <!-- Celestial -->
+      <div class="site-card">
+        <div class="site-card-top">
+          <div class="site-info">
+            <div class="site-name">Celestial</div>
+            <div class="site-desc">Navegador desbloqueado II</div>
+          </div>
+          <a href="https://edu.justinsteiger.com" target="_blank" class="site-main-link">▶ ABRIR</a>
+        </div>
+      </div>
+
+      <!-- Discord warning -->
+      <div class="discord-warn">
+        <div class="discord-warn-toggle" onclick="toggleDiscordWarn(this)">
+          ⚠ Si no funciona ninguno unirse al servidor de dsicord de equinox para mas links...
+          <span class="discord-warn-arrow">▼</span>
+        </div>
+        <div class="discord-warn-body">
+          <a href="https://discord.gg/m9vFcUk4Ee" target="_blank">discord.gg/m9vFcUk4Ee</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CRÉDITOS -->
     <div class="page" id="page-credits">
       <div class="page-header"><div class="page-title">/ <span>créditos</span></div></div>
       <div class="credits-card">
@@ -217,6 +292,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
       </div>
     </div>
 
+    <!-- CÓDIGO FUENTE -->
     <div class="page" id="page-source">
       <div class="page-header"><div class="page-title">/ <span>código fuente</span> / index.html</div></div>
       <div class="source-header">
@@ -250,16 +326,28 @@ function switchTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
-
   const tabEl = document.querySelector('[data-tab="' + tab + '"]');
   if (tabEl) tabEl.classList.add('active');
   const pageEl = document.getElementById('page-' + tab);
   if (pageEl) pageEl.classList.add('active');
-
-  const map = { games: 'sb-todos', credits: 'sb-credits', source: 'sb-source' };
-  if (map[tab]) document.getElementById(map[tab]).classList.add('active');
-
+  const sbMap = { games: 'sb-games', useful: 'sb-useful', credits: 'sb-credits', source: 'sb-source' };
+  if (sbMap[tab]) document.getElementById(sbMap[tab]).classList.add('active');
   if (tab === 'source') renderSource();
+}
+
+function toggleDropdown(toggle) {
+  const body = toggle.nextElementSibling;
+  const arrow = toggle.querySelector('.dropdown-arrow');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+  arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+function toggleDiscordWarn(toggle) {
+  const body = toggle.nextElementSibling;
+  const arrow = toggle.querySelector('.discord-warn-arrow');
+  body.classList.toggle('open');
+  arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
 }
 
 function renderSource() {
