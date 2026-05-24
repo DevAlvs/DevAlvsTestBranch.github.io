@@ -373,6 +373,7 @@ async function checkPass() {
     document.getElementById('lockscreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('userBadge').textContent = '◉ ' + currentUser;
+    loadSavedSettings();
   } else {
     err.textContent = '✕ CONTRASEÑA INCORRECTA';
     input.classList.add('error');
@@ -463,7 +464,7 @@ function applyAccent(c) {
   const root = document.documentElement;
   root.style.setProperty('--accent', color);
   root.style.setProperty('--accent2', darken(color, 30));
-  localStorage.setItem('edm_accent', color);
+  localStorage.setItem('edm_accent_' + (currentUser||'default'), color);
 }
 
 function applyBg(c) {
@@ -474,30 +475,31 @@ function applyBg(c) {
   root.style.setProperty('--bg3', lighten(color, 14));
   root.style.setProperty('--border', lighten(color, 30));
   root.style.setProperty('--border2', lighten(color, 45));
-  localStorage.setItem('edm_bg', color);
+  localStorage.setItem('edm_bg_' + (currentUser||'default'), color);
 }
 
 function applyTabTitle() {
   const val = document.getElementById('tabTitleInput').value.trim();
-  if (val) { document.title = val; localStorage.setItem('edm_title', val); }
+  if (val) { document.title = val; localStorage.setItem('edm_title_' + (currentUser||'default'), val); }
 }
 
 function setTabTitle(title) {
   document.getElementById('tabTitleInput').value = title;
   document.title = title;
-  localStorage.setItem('edm_title', title);
+  localStorage.setItem('edm_title_' + (currentUser||'default'), title);
 }
 
 function resetTabTitle() {
   document.title = 'EjerciciosDeMatematicas';
   document.getElementById('tabTitleInput').value = '';
-  localStorage.removeItem('edm_title');
+  localStorage.removeItem('edm_title_' + (currentUser||'default'));
 }
 
 function resetAll() {
-  localStorage.removeItem('edm_accent');
-  localStorage.removeItem('edm_bg');
-  localStorage.removeItem('edm_title');
+  const u = currentUser || 'default';
+  localStorage.removeItem('edm_accent_' + u);
+  localStorage.removeItem('edm_bg_' + u);
+  localStorage.removeItem('edm_title_' + u);
   document.documentElement.removeAttribute('style');
   document.title = 'EjerciciosDeMatematicas';
   document.getElementById('accentCustom').value = '#4f8ef7';
@@ -508,12 +510,13 @@ function resetAll() {
 }
 
 function loadSavedSettings() {
-  const accent = localStorage.getItem('edm_accent');
-  const bg     = localStorage.getItem('edm_bg');
-  const title  = localStorage.getItem('edm_title');
-  if (accent) applyAccent(accent);
-  if (bg)     applyBg(bg);
-  if (title)  document.title = title;
+  const u = currentUser || 'default';
+  const accent = localStorage.getItem('edm_accent_' + u);
+  const bg     = localStorage.getItem('edm_bg_' + u);
+  const title  = localStorage.getItem('edm_title_' + u);
+  if (accent) { applyAccent(accent); document.getElementById('accentCustom').value = accent; document.getElementById('accentPreview').style.background = accent; }
+  if (bg)     { applyBg(bg);         document.getElementById('bgCustom').value = bg;         document.getElementById('bgPreview').style.background = bg; }
+  if (title)  { document.title = title; document.getElementById('tabTitleInput').value = title; }
 }
 
 // ── PANIC KEY: Shift + < → Google Classroom ──
@@ -525,7 +528,6 @@ document.addEventListener('keydown', e => {
 
 init();
 buildPrefabs();
-loadSavedSettings();
 </script>
 </body>
 </html>
