@@ -16,11 +16,11 @@
   --green: #3ddc84; --red: #f74f4f; --yellow: #f7c94f;
 }
 html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 15px; overflow-x: hidden; }
-
 #lockscreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-.lock-box { background: var(--bg2); border: 1px solid var(--border2); padding: 36px 40px; width: 320px; display: flex; flex-direction: column; gap: 16px; }
+.lock-box { background: var(--bg2); border: 1px solid var(--border2); padding: 36px 40px; width: 340px; display: flex; flex-direction: column; gap: 16px; }
 .lock-title { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
 .lock-title span { color: var(--accent); }
+.lock-user { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 1px; min-height: 16px; }
 .lock-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
 .lock-input { background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-family: 'Share Tech Mono', monospace; font-size: 16px; letter-spacing: 4px; padding: 10px 14px; width: 100%; outline: none; transition: border-color 0.15s; }
 .lock-input:focus { border-color: var(--accent); }
@@ -30,21 +30,20 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .lock-btn:hover { background: rgba(79,142,247,0.25); }
 .lock-error { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--red); letter-spacing: 1px; min-height: 14px; }
 .lock-footer { margin-top: 24px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1px; }
-
+.lock-no-user { text-align: center; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--red); line-height: 1.8; }
 #app { display: none; height: 100vh; }
 .shell { display: grid; grid-template-rows: 42px 1fr; grid-template-columns: 200px 1fr; height: 100vh; }
-
 .topbar { grid-column: 1 / -1; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; z-index: 100; }
 .topbar-logo { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--accent); letter-spacing: 1px; padding-right: 20px; border-right: 1px solid var(--border); white-space: nowrap; }
 .topbar-logo span { color: var(--text2); }
 .tabs { display: flex; height: 100%; margin-left: 4px; overflow-x: auto; }
-.tab { display: flex; align-items: center; gap: 6px; padding: 0 16px; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.5px; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; text-transform: uppercase; user-select: none; border-right: 1px solid var(--border); white-space: nowrap; }
+.tab { display: flex; align-items: center; gap: 6px; padding: 0 16px; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 13px; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; text-transform: uppercase; user-select: none; border-right: 1px solid var(--border); white-space: nowrap; }
 .tab:hover { color: var(--text); background: var(--bg3); }
 .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(79,142,247,0.05); }
-.topbar-right { margin-left: auto; flex-shrink: 0; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.user-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--green); padding: 3px 10px; border: 1px solid rgba(61,220,132,0.2); background: rgba(61,220,132,0.05); letter-spacing: 1px; }
 .discord-btn { display: flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(88,101,242,0.15); border: 1px solid rgba(88,101,242,0.3); color: #7289da; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
 .discord-btn:hover { background: rgba(88,101,242,0.25); }
-
 .sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; }
 .sidebar-section { padding: 6px 12px 2px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1.5px; text-transform: uppercase; }
 .sidebar-item { display: flex; align-items: center; gap: 8px; padding: 7px 16px; color: var(--text2); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.1s; border-left: 2px solid transparent; }
@@ -52,61 +51,29 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .sidebar-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,142,247,0.06); }
 .sidebar-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); flex-shrink: 0; }
 .sidebar-item.active .dot { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
-.sidebar-item .badge { margin-left: auto; font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 1px 6px; background: rgba(79,142,247,0.15); color: var(--accent); border: 1px solid rgba(79,142,247,0.2); }
-
 .content { overflow-y: auto; background: var(--bg); }
 .page { display: none; padding: 20px; }
 .page.active { display: block; }
-
 .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
 .page-title { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text3); letter-spacing: 2px; }
 .page-title span { color: var(--accent); }
-.status-pill { display: flex; align-items: center; gap: 6px; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--green); padding: 3px 10px; border: 1px solid rgba(61,220,132,0.2); background: rgba(61,220,132,0.05); }
-.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
-.stat-card { background: var(--bg2); border: 1px solid var(--border); padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; }
-.stat-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
-.stat-value { font-family: 'Share Tech Mono', monospace; font-size: 20px; color: var(--accent); }
-.stat-sub { font-size: 11px; color: var(--text3); }
-
-.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 12px; }
-.game-card { background: var(--bg2); border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; text-decoration: none; display: block; overflow: hidden; }
-.game-card:hover { border-color: var(--accent2); background: var(--bg3); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(79,142,247,0.1); }
-.game-card-header { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); }
-.tag { padding: 1px 6px; font-size: 9px; font-weight: 700; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace; }
-.tag-new { background: rgba(61,220,132,0.15); color: var(--green); border: 1px solid rgba(61,220,132,0.3); }
-.tag-wip { background: rgba(247,201,79,0.15); color: var(--yellow); border: 1px solid rgba(247,201,79,0.3); }
-.tag-soon { background: rgba(79,142,247,0.1); color: var(--text3); border: 1px solid var(--border); }
-.game-thumb { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: linear-gradient(135deg, var(--bg), var(--bg3)); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
-.play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 4px; opacity: 0; transition: opacity 0.15s; }
-.game-card:hover .play-overlay { opacity: 1; }
-.game-info { padding: 12px; }
-.game-name { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; margin-bottom: 4px; text-transform: uppercase; }
-.game-desc { font-size: 13px; color: var(--text2); line-height: 1.4; }
-.game-card.disabled { opacity: 0.4; pointer-events: none; }
-
-/* ── USEFUL PAGES ── */
 .site-card { background: var(--bg2); border: 1px solid var(--border); margin-bottom: 12px; overflow: hidden; }
 .site-card-top { padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .site-info { display: flex; flex-direction: column; gap: 4px; }
 .site-name { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--accent); letter-spacing: 1px; }
 .site-desc { font-size: 12px; color: var(--text2); font-family: 'Share Tech Mono', monospace; }
-.site-main-link { flex-shrink: 0; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--green); text-decoration: none; padding: 6px 12px; border: 1px solid rgba(61,220,132,0.3); background: rgba(61,220,132,0.08); transition: all 0.15s; white-space: nowrap; }
-.site-main-link:hover { background: rgba(61,220,132,0.18); }
-
+.site-open-btn { flex-shrink: 0; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--green); padding: 6px 12px; border: 1px solid rgba(61,220,132,0.3); background: rgba(61,220,132,0.08); transition: all 0.15s; cursor: pointer; white-space: nowrap; }
+.site-open-btn:hover { background: rgba(61,220,132,0.18); }
 .dropdown { border-top: 1px solid var(--border); }
 .dropdown-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); letter-spacing: 1px; user-select: none; transition: background 0.1s; }
 .dropdown-toggle:hover { background: var(--bg3); color: var(--text); }
 .dropdown-arrow { transition: transform 0.2s; font-size: 10px; }
 .dropdown-body { display: none; padding: 8px 16px 12px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.2); }
 .dropdown-body.open { display: block; }
-.alt-link { display: block; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); text-decoration: none; padding: 5px 0; border-bottom: 1px solid var(--border); transition: color 0.1s; word-break: break-all; }
-.alt-link:last-child { border-bottom: none; }
-.alt-link:hover { color: var(--accent); }
-.alt-link::before { content: '▸ '; color: var(--text3); }
-
+.alt-btn { display: block; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); padding: 6px 0; border-bottom: 1px solid var(--border); transition: color 0.1s; cursor: pointer; word-break: break-all; background: none; border-left: none; border-right: none; border-top: none; width: 100%; text-align: left; }
+.alt-btn:last-child { border-bottom: none; }
+.alt-btn:hover { color: var(--accent); }
+.alt-btn::before { content: '▸ '; color: var(--text3); }
 .discord-warn { margin-top: 16px; background: var(--bg2); border: 1px solid rgba(247,201,79,0.2); }
 .discord-warn-toggle { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--yellow); letter-spacing: 1px; user-select: none; transition: background 0.1s; }
 .discord-warn-toggle:hover { background: var(--bg3); }
@@ -115,7 +82,13 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .discord-warn-body.open { display: block; }
 .discord-warn-body a { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #7289da; text-decoration: none; }
 .discord-warn-body a:hover { text-decoration: underline; }
-
+#iframeOverlay { display: none; position: fixed; inset: 0; z-index: 500; flex-direction: column; background: var(--bg); }
+#iframeOverlay.open { display: flex; }
+.iframe-bar { height: 36px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 12px; gap: 10px; flex-shrink: 0; }
+.iframe-title { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); letter-spacing: 1px; flex: 1; }
+.iframe-close { font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 3px 10px; background: rgba(247,79,79,0.1); border: 1px solid rgba(247,79,79,0.3); color: var(--red); cursor: pointer; transition: all 0.15s; letter-spacing: 1px; }
+.iframe-close:hover { background: rgba(247,79,79,0.2); }
+#siteFrame { flex: 1; border: none; width: 100%; }
 .credits-card { background: var(--bg2); border: 1px solid var(--border); max-width: 500px; }
 .credits-card-header { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 8px 16px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; }
 .credits-card-body { padding: 20px; }
@@ -123,13 +96,6 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .credit-row:last-child { border-bottom: none; }
 .credit-key { color: var(--text2); font-weight: 500; }
 .credit-val { color: var(--accent); font-family: 'Share Tech Mono', monospace; font-size: 12px; }
-
-.source-header { background: var(--bg3); border: 1px solid var(--border); border-bottom: none; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; }
-.source-filename { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); }
-.copy-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 3px 10px; background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.2); color: var(--accent); cursor: pointer; transition: all 0.15s; letter-spacing: 1px; }
-.copy-btn:hover { background: rgba(79,142,247,0.2); }
-.source-box { background: var(--bg2); border: 1px solid var(--border); padding: 16px; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); line-height: 1.7; overflow-x: auto; white-space: pre; max-height: 70vh; overflow-y: auto; }
-
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border2); }
@@ -137,120 +103,50 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 </head>
 <body>
 
-<!-- LOCKSCREEN -->
 <div id="lockscreen">
-  <div class="lock-box">
+  <div class="lock-box" id="lockBox">
     <div class="lock-title">EDM<span>/</span>HUB — <span>ACCESO RESTRINGIDO</span></div>
+    <div class="lock-user" id="lockUser"></div>
     <div class="lock-label">Contraseña</div>
-    <input class="lock-input" type="password" id="passInput" maxlength="10" placeholder="······" onkeydown="if(event.key==='Enter') checkPass()" />
+    <input class="lock-input" type="password" id="passInput" maxlength="30" placeholder="······" onkeydown="if(event.key==='Enter') checkPass()" />
     <div class="lock-error" id="lockError"></div>
     <button class="lock-btn" onclick="checkPass()">▶ ENTRAR</button>
   </div>
   <div class="lock-footer">All made by Alvs</div>
 </div>
 
-<!-- MAIN APP -->
+<div id="iframeOverlay">
+  <div class="iframe-bar">
+    <span class="iframe-title" id="iframeTitle">cargando...</span>
+    <button class="iframe-close" onclick="closeIframe()">✕ CERRAR</button>
+  </div>
+  <iframe id="siteFrame" src="" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+</div>
+
 <div id="app">
 <div class="shell">
-
   <header class="topbar">
     <div class="topbar-logo">EDM<span>/</span>HUB</div>
     <nav class="tabs">
-      <div class="tab active" data-tab="games" onclick="switchTab('games')">◈ Proyectos de Godot</div>
-      <div class="tab" data-tab="useful" onclick="switchTab('useful')">◆ Páginas Útiles</div>
+      <div class="tab active" data-tab="enlaces" onclick="switchTab('enlaces')">◈ Enlaces</div>
       <div class="tab" data-tab="credits" onclick="switchTab('credits')">◉ Créditos</div>
-      <div class="tab" data-tab="source" onclick="switchTab('source')">◧ Código Fuente</div>
     </nav>
     <div class="topbar-right">
+      <div class="user-badge" id="userBadge">◉ usuario</div>
       <div class="discord-btn" onclick="alert('Discord próximamente...')">⚡ Discord</div>
     </div>
   </header>
 
   <aside class="sidebar">
-    <div class="sidebar-section">Godot</div>
-    <div class="sidebar-item active" id="sb-games" onclick="switchTab('games')"><div class="dot"></div> Todos <span class="badge">3</span></div>
-    <div class="sidebar-item" id="sb-games2" onclick="switchTab('games')"><div class="dot"></div> Disponibles <span class="badge">1</span></div>
-    <div class="sidebar-item" id="sb-games3" onclick="switchTab('games')"><div class="dot"></div> En desarrollo <span class="badge">2</span></div>
-    <div class="sidebar-section" style="margin-top:12px">Páginas</div>
-    <div class="sidebar-item" id="sb-useful" onclick="switchTab('useful')"><div class="dot"></div> Útiles <span class="badge">3</span></div>
-    <div class="sidebar-section" style="margin-top:12px">Info</div>
+    <div class="sidebar-section">Navegación</div>
+    <div class="sidebar-item active" id="sb-enlaces" onclick="switchTab('enlaces')"><div class="dot"></div> Enlaces</div>
     <div class="sidebar-item" id="sb-credits" onclick="switchTab('credits')"><div class="dot"></div> Créditos</div>
-    <div class="sidebar-item" id="sb-source" onclick="switchTab('source')"><div class="dot"></div> Código fuente</div>
   </aside>
 
   <main class="content">
-
-    <!-- PROYECTOS GODOT -->
-    <div class="page active" id="page-games">
+    <div class="page active" id="page-enlaces">
       <div class="page-header">
-        <div class="page-title">/ <span>proyectos de godot</span> / todos</div>
-        <div class="status-pill"><div class="status-dot"></div> ONLINE</div>
-      </div>
-      <div class="stats-row">
-        <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value">03</div><div class="stat-sub">En el catálogo</div></div>
-        <div class="stat-card"><div class="stat-label">Disponibles</div><div class="stat-value" style="color:var(--green)">01</div><div class="stat-sub">Jugables ahora</div></div>
-        <div class="stat-card"><div class="stat-label">En desarrollo</div><div class="stat-value" style="color:var(--yellow)">02</div><div class="stat-sub">Próximamente</div></div>
-      </div>
-      <div class="games-grid">
-        <a href="plinko/index.html" class="game-card">
-          <div class="game-card-header"><span>PLINKO_V1</span><span class="tag tag-new">NUEVO</span></div>
-          <div class="game-thumb"><span>🎰</span><div class="play-overlay">▶ PLAY</div></div>
-          <div class="game-info"><div class="game-name">Plinko</div><div class="game-desc">Empieza con $1000. Apuesta, lanza, sobrevive.</div></div>
-        </a>
-        <div class="game-card disabled">
-          <div class="game-card-header"><span>GAME_002</span><span class="tag tag-soon">PRÓXIMO</span></div>
-          <div class="game-thumb"><span>🎮</span></div>
-          <div class="game-info"><div class="game-name">???</div><div class="game-desc">En desarrollo. Próximamente.</div></div>
-        </div>
-        <div class="game-card disabled">
-          <div class="game-card-header"><span>GAME_003</span><span class="tag tag-wip">WIP</span></div>
-          <div class="game-thumb"><span>🃏</span></div>
-          <div class="game-info"><div class="game-name">???</div><div class="game-desc">En desarrollo. Próximamente.</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PÁGINAS ÚTILES -->
-    <div class="page" id="page-useful">
-      <div class="page-header">
-        <div class="page-title">/ <span>páginas útiles</span></div>
-        <div class="status-pill"><div class="status-dot"></div> 3 SITIOS</div>
-      </div>
-
-      <!-- Equinox -->
-      <div class="site-card">
-        <div class="site-card-top">
-          <div class="site-info">
-            <div class="site-name">Equinox</div>
-            <div class="site-desc">Navegador desbloqueado + multiusos</div>
-          </div>
-          <a href="https://main.synoserver.com" target="_blank" class="site-main-link">▶ ABRIR</a>
-        </div>
-        <div class="dropdown">
-          <div class="dropdown-toggle" onclick="toggleDropdown(this)">
-            ▸ ENLACES ALTERNATIVOS
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-body">
-            <a href="https://calcjsluu.vocations.pics/" target="_blank" class="alt-link">calcjsluu.vocations.pics</a>
-            <a href="https://74.208.202.111.nip.io/" target="_blank" class="alt-link">74.208.202.111.nip.io</a>
-            <a href="https://equal.bulls.ferrosider.com.ar/" target="_blank" class="alt-link">equal.bulls.ferrosider.com.ar</a>
-            <a href="https://eqbull.thongthaitextile.com/" target="_blank" class="alt-link">eqbull.thongthaitextile.com</a>
-            <a href="https://algebraic-expressions.with-hinkle.go.strangled.net/" target="_blank" class="alt-link">algebraic-expressions.with-hinkle.go.strangled.net</a>
-            <a href="https://storageforbulls.whencloudsfail.org/" target="_blank" class="alt-link">storageforbulls.whencloudsfail.org</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Classroom 6x -->
-      <div class="site-card">
-        <div class="site-card-top">
-          <div class="site-info">
-            <div class="site-name">Classroom Pirata</div>
-            <div class="site-desc">Classroom pirata (juegos)</div>
-          </div>
-          <a href="https://sites.google.com/view/classroom6x/" target="_blank" class="site-main-link">▶ ABRIR</a>
-        </div>
+        <div class="page-title">/ <span>enlaces</span></div>
       </div>
 
       <!-- Celestial -->
@@ -258,62 +154,131 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
         <div class="site-card-top">
           <div class="site-info">
             <div class="site-name">Celestial</div>
-            <div class="site-desc">Navegador desbloqueado II</div>
+            <div class="site-desc">Navegador desbloqueado</div>
           </div>
-          <a href="https://edu.justinsteiger.com" target="_blank" class="site-main-link">▶ ABRIR</a>
+          <button class="site-open-btn" onclick="openIframe('c_main','Celestial')">▶ ABRIR</button>
+        </div>
+        <div class="dropdown">
+          <div class="dropdown-toggle" onclick="toggleDropdown(this)">
+            ▸ ENLACES ALTERNATIVOS <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="dropdown-body">
+            <button class="alt-btn" onclick="openIframe('c_1','Celestial — Alt 1')">flight.airlinemeals.net</button>
+            <button class="alt-btn" onclick="openIframe('c_2','Celestial — Alt 2')">edu.arnet-ag.ch</button>
+            <button class="alt-btn" onclick="openIframe('c_3','Celestial — Alt 3')">class.art-motel.com</button>
+            <button class="alt-btn" onclick="openIframe('c_4','Celestial — Alt 4')">science.bostoncareercounselor.com</button>
+            <button class="alt-btn" onclick="openIframe('c_5','Celestial — Alt 5')">celestial.galtex.ca</button>
+            <button class="alt-btn" onclick="openIframe('c_6','Celestial — Alt 6')">eduk12.langebro.com</button>
+            <button class="alt-btn" onclick="openIframe('c_7','Celestial — Alt 7')">k12.thenme.net</button>
+            <button class="alt-btn" onclick="openIframe('c_8','Celestial — Alt 8')">aristotle.lins2000.com</button>
+            <button class="alt-btn" onclick="openIframe('c_9','Celestial — Alt 9')">edu.swe.net</button>
+            <button class="alt-btn" onclick="openIframe('c_10','Celestial — Alt 10')">history.tribeoftwo.com</button>
+            <button class="alt-btn" onclick="openIframe('c_11','Celestial — Alt 11')">computers.networkindia.com</button>
+            <button class="alt-btn" onclick="openIframe('c_12','Celestial — Alt 12')">k12.cspcorp.com</button>
+            <button class="alt-btn" onclick="openIframe('c_13','Celestial — Alt 13')">k12.cowin-eng.com</button>
+            <button class="alt-btn" onclick="openIframe('c_14','Celestial — Alt 14')">pics.backriverphotography.com</button>
+            <button class="alt-btn" onclick="openIframe('c_15','Celestial — Alt 15')">k12.rusticrivergear.com</button>
+            <button class="alt-btn" onclick="openIframe('c_16','Celestial — Alt 16')">www.childsite.org</button>
+            <button class="alt-btn" onclick="openIframe('c_17','Celestial — Alt 17')">cdn.childsite.org</button>
+            <button class="alt-btn" onclick="openIframe('c_18','Celestial — Alt 18')">edu.justinsteiger.com</button>
+            <button class="alt-btn" onclick="openIframe('c_19','Celestial — Alt 19')">edu.mattflack.com</button>
+            <button class="alt-btn" onclick="openIframe('c_20','Celestial — Alt 20')">123.2660010.com</button>
+            <button class="alt-btn" onclick="openIframe('c_21','Celestial — Alt 21')">edu.pittentrepreneur.com</button>
+            <button class="alt-btn" onclick="openIframe('c_22','Celestial — Alt 22')">english.bostoncareercounselor.com</button>
+          </div>
         </div>
       </div>
 
-      <!-- Discord warning -->
       <div class="discord-warn">
         <div class="discord-warn-toggle" onclick="toggleDiscordWarn(this)">
-          ⚠ Si no funciona ninguno unirse al servidor de dsicord de equinox para mas links...
+          ⚠ Si no funciona ninguno unirse a...
           <span class="discord-warn-arrow">▼</span>
         </div>
         <div class="discord-warn-body">
           <a href="https://discord.gg/m9vFcUk4Ee" target="_blank">discord.gg/m9vFcUk4Ee</a>
         </div>
       </div>
-
     </div>
 
-    <!-- CRÉDITOS -->
     <div class="page" id="page-credits">
       <div class="page-header"><div class="page-title">/ <span>créditos</span></div></div>
       <div class="credits-card">
         <div class="credits-card-header">about / team</div>
         <div class="credits-card-body">
           <div class="credit-row"><span class="credit-key">Desarrollador</span><span class="credit-val">Álvaro D. (Alvs)</span></div>
-          <div class="credit-row"><span class="credit-key">Motor</span><span class="credit-val">Godot 4.6</span></div>
           <div class="credit-row"><span class="credit-key">Web</span><span class="credit-val">HTML / CSS / JS</span></div>
           <div class="credit-row"><span class="credit-key">Hosting</span><span class="credit-val">GitHub Pages</span></div>
           <div class="credit-row"><span class="credit-key">Año</span><span class="credit-val">2026</span></div>
         </div>
       </div>
     </div>
-
-    <!-- CÓDIGO FUENTE -->
-    <div class="page" id="page-source">
-      <div class="page-header"><div class="page-title">/ <span>código fuente</span> / index.html</div></div>
-      <div class="source-header">
-        <span class="source-filename">index.html — página principal</span>
-        <button class="copy-btn" onclick="copySource()">COPIAR</button>
-      </div>
-      <div class="source-box" id="sourceBox"></div>
-    </div>
-
   </main>
 </div>
 </div>
 
 <script>
-function checkPass() {
+const USERS = {
+  'vipacces':    '05483a164153415b5d75c8970c9d6f33cb31cb517ee0bd13225cd375813b2ce5',
+  'test_branch': '526d3775bb2f9d22b332578faa63b067d48f7503bc0aadeb86f7b5654a9393df',
+  'alvs':        '923cf699d29d52cb97fd76c19267bd40cdbb69ddb0440d41121b6dfdaea45eac',
+};
+
+const URLS = {
+  c_main: atob('aHR0cHM6Ly9sYXVuY2gubmV3bGlmZXNhbmN0dWFyeWNodXJjaC5jb20='),
+  c_1:  atob('aHR0cHM6Ly9mbGlnaHQuYWlybGluZW1lYWxzLm5ldC8='),
+  c_2:  atob('aHR0cHM6Ly9lZHUuYXJuZXQtYWcuY2gv'),
+  c_3:  atob('aHR0cHM6Ly9jbGFzcy5hcnQtbW90ZWwuY29tLw=='),
+  c_4:  atob('aHR0cHM6Ly9zY2llbmNlLmJvc3RvbmNhcmVlcmNvdW5zZWxvci5jb20v'),
+  c_5:  atob('aHR0cHM6Ly9jZWxlc3RpYWwuZ2FsdGV4LmNhLw=='),
+  c_6:  atob('aHR0cHM6Ly9lZHVrMTIubGFuZ2Vicm8uY29tLw=='),
+  c_7:  atob('aHR0cHM6Ly9rMTIudGhlbm1lLm5ldC8='),
+  c_8:  atob('aHR0cHM6Ly9hcmlzdG90bGUubGluczIwMDAuY29tLw=='),
+  c_9:  atob('aHR0cHM6Ly9lZHUuc3dlLm5ldC8='),
+  c_10: atob('aHR0cHM6Ly9oaXN0b3J5LnRyaWJlb2Z0d28uY29tLw=='),
+  c_11: atob('aHR0cHM6Ly9jb21wdXRlcnMubmV0d29ya2luZGlhLmNvbS8='),
+  c_12: atob('aHR0cHM6Ly9rMTIuY3NwY29ycC5jb20v'),
+  c_13: atob('aHR0cHM6Ly9rMTIuY293aW4tZW5nLmNvbS8='),
+  c_14: atob('aHR0cHM6Ly9waWNzLmJhY2tyaXZlcnBob3RvZ3JhcGh5LmNvbS8='),
+  c_15: atob('aHR0cHM6Ly9rMTIucnVzdGljcml2ZXJnZWFyLmNvbS8='),
+  c_16: atob('aHR0cHM6Ly93d3cuY2hpbGRzaXRlLm9yZy8='),
+  c_17: atob('aHR0cHM6Ly9jZG4uY2hpbGRzaXRlLm9yZy8='),
+  c_18: atob('aHR0cHM6Ly9lZHUuanVzdGluc3RlaWdlci5jb20v'),
+  c_19: atob('aHR0cHM6Ly9lZHUubWF0dGZsYWNrLmNvbS8='),
+  c_20: atob('aHR0cHM6Ly8xMjMuMjY2MDAxMC5jb20v'),
+  c_21: atob('aHR0cHM6Ly9lZHUucGl0dGVudHJlcHJlbmV1ci5jb20v'),
+  c_22: atob('aHR0cHM6Ly9lbmdsaXNoLmJvc3RvbmNhcmVlcmNvdW5zZWxvci5jb20v'),
+};
+
+let currentUser = null;
+
+async function sha256(msg) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function init() {
+  const hash = window.location.hash.replace('#','');
+  if (!hash || !USERS[hash]) { showNoUser(); return; }
+  currentUser = hash;
+  document.getElementById('lockUser').textContent = '▸ Usuario: ' + hash;
+}
+
+function showNoUser() {
+  document.getElementById('lockBox').innerHTML = `
+    <div class="lock-title">EDM<span>/</span>HUB — <span>ACCESO DENEGADO</span></div>
+    <div class="lock-no-user">✕ Usuario no reconocido<br><br>Necesitas un enlace de acceso válido.<br>Contacta con el administrador.</div>`;
+}
+
+async function checkPass() {
+  if (!currentUser) return;
   const val = document.getElementById('passInput').value;
   const err = document.getElementById('lockError');
   const input = document.getElementById('passInput');
-  if (val === '159235') {
+  const hash = await sha256(val);
+  if (hash === USERS[currentUser]) {
     document.getElementById('lockscreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    document.getElementById('userBadge').textContent = '◉ ' + currentUser;
   } else {
     err.textContent = '✕ CONTRASEÑA INCORRECTA';
     input.classList.add('error');
@@ -322,47 +287,41 @@ function checkPass() {
   }
 }
 
+function openIframe(key, title) {
+  const url = URLS[key];
+  if (!url) return;
+  document.getElementById('iframeTitle').textContent = title;
+  document.getElementById('siteFrame').src = url;
+  document.getElementById('iframeOverlay').classList.add('open');
+}
+
+function closeIframe() {
+  document.getElementById('iframeOverlay').classList.remove('open');
+  document.getElementById('siteFrame').src = '';
+}
+
 function switchTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
-  const tabEl = document.querySelector('[data-tab="' + tab + '"]');
-  if (tabEl) tabEl.classList.add('active');
-  const pageEl = document.getElementById('page-' + tab);
-  if (pageEl) pageEl.classList.add('active');
-  const sbMap = { games: 'sb-games', useful: 'sb-useful', credits: 'sb-credits', source: 'sb-source' };
-  if (sbMap[tab]) document.getElementById(sbMap[tab]).classList.add('active');
-  if (tab === 'source') renderSource();
+  document.querySelector('[data-tab="'+tab+'"]')?.classList.add('active');
+  document.getElementById('page-'+tab)?.classList.add('active');
+  document.getElementById('sb-'+tab)?.classList.add('active');
 }
 
 function toggleDropdown(toggle) {
   const body = toggle.nextElementSibling;
-  const arrow = toggle.querySelector('.dropdown-arrow');
   body.classList.toggle('open');
-  toggle.classList.toggle('open');
-  arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+  toggle.querySelector('.dropdown-arrow').style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
 }
 
 function toggleDiscordWarn(toggle) {
   const body = toggle.nextElementSibling;
-  const arrow = toggle.querySelector('.discord-warn-arrow');
   body.classList.toggle('open');
-  arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+  toggle.querySelector('.discord-warn-arrow').style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
 }
 
-function renderSource() {
-  const box = document.getElementById('sourceBox');
-  if (box.textContent.trim()) return;
-  box.textContent = document.documentElement.outerHTML;
-}
-
-function copySource() {
-  navigator.clipboard.writeText(document.documentElement.outerHTML).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = 'COPIADO ✓';
-    setTimeout(() => btn.textContent = 'COPIAR', 2000);
-  });
-}
+init();
 </script>
 </body>
 </html>
