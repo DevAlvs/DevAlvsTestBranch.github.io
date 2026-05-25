@@ -132,7 +132,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
     <div class="lock-error" id="lockError"></div>
     <button class="lock-btn" onclick="checkPass()">▶ ENTRAR</button>
   </div>
-  <div class="lock-footer">All made by Alvs</div>
+  <div class="lock-footer">Accede al servidor de testeo</div>
 </div>
 
 <div id="iframeOverlay">
@@ -208,6 +208,16 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
             <button class="alt-btn" onclick="openIframe('c_21','Celestial — Alt 21')">edu.pittentrepreneur.com</button>
             <button class="alt-btn" onclick="openIframe('c_22','Celestial — Alt 22')">english.bostoncareercounselor.com</button>
           </div>
+        </div>
+      </div>
+
+      <div class="cineby">
+        <div class="cine-card-top">
+          <div class="cine-info">
+            <div class="cine-name">Cineby</div>
+            <div class="cine-desc">Servicios de streaming GRATIS</div>
+          </div>
+          <button class="site-open-btn" onclick="openIframe('c_cineby','Cineby')">▶ ABRIR</button>
         </div>
       </div>
 
@@ -312,15 +322,12 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 
 <script>
 const USERS = {
-  'vipacces':    '05483a164153415b5d75c8970c9d6f33cb31cb517ee0bd13225cd375813b2ce5',
-  'test_branch': '526d3775bb2f9d22b332578faa63b067d48f7503bc0aadeb86f7b5654a9393df',
-  'alvs':        '923cf699d29d52cb97fd76c19267bd40cdbb69ddb0440d41121b6dfdaea45eac',
-  'usuario1':    '4a788ff846ff087a7164afb256937c9401858e4812b75fc3999aa44f504dcea5',
-  'usuario2':    '6686b092b4bfd62a92c26da8f7782f45488d253597c4ef93fd17d9e6e9642eaa',
+  'branchacces':    '05483a164153415b5d75c8970c9d6f33cb31cb517ee0bd13225cd375813b2ce5',
 };
 
 const URLS = {
   c_main: atob('aHR0cHM6Ly9sYXVuY2gubmV3bGlmZXNhbmN0dWFyeWNodXJjaC5jb20='),
+  c_cineby: atob('Y2luZWJ5LnNj'),
   c_1:  atob('aHR0cHM6Ly9mbGlnaHQuYWlybGluZW1lYWxzLm5ldC8='),
   c_2:  atob('aHR0cHM6Ly9lZHUuYXJuZXQtYWcuY2gv'),
   c_3:  atob('aHR0cHM6Ly9jbGFzcy5hcnQtbW90ZWwuY29tLw=='),
