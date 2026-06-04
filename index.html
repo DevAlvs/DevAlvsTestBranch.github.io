@@ -1,542 +1,298 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EjerciciosDeMatematicas</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --bg: #0a0c10; --bg2: #0f1218; --bg3: #141820;
-  --border: #1e2530; --border2: #2a3545;
-  --accent: #4f8ef7; --accent2: #2d6fd4;
-  --text: #c8d4e8; --text2: #7a8fa8; --text3: #4a5f78;
-  --green: #3ddc84; --red: #f74f4f; --yellow: #f7c94f;
-}
-html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 15px; overflow-x: hidden; }
-#lockscreen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-.lock-box { background: var(--bg2); border: 1px solid var(--border2); padding: 36px 40px; width: 340px; display: flex; flex-direction: column; gap: 16px; }
-.lock-title { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
-.lock-title span { color: var(--accent); }
-.lock-user { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 1px; min-height: 16px; }
-.lock-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
-.lock-input { background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-family: 'Share Tech Mono', monospace; font-size: 16px; letter-spacing: 4px; padding: 10px 14px; width: 100%; outline: none; transition: border-color 0.15s; }
-.lock-input:focus { border-color: var(--accent); }
-.lock-input.error { border-color: var(--red); animation: shake 0.3s; }
-@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
-.lock-btn { background: rgba(79,142,247,0.15); border: 1px solid rgba(79,142,247,0.3); color: var(--accent); font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 2px; padding: 10px; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
-.lock-btn:hover { background: rgba(79,142,247,0.25); }
-.lock-error { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--red); letter-spacing: 1px; min-height: 14px; }
-.lock-footer { margin-top: 24px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1px; }
-.lock-no-user { text-align: center; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--red); line-height: 1.8; }
-#app { display: none; height: 100vh; }
-.shell { display: grid; grid-template-rows: 42px 1fr; grid-template-columns: 200px 1fr; height: 100vh; }
-.topbar { grid-column: 1 / -1; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; z-index: 100; }
-.topbar-logo { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--accent); letter-spacing: 1px; padding-right: 20px; border-right: 1px solid var(--border); white-space: nowrap; }
-.topbar-logo span { color: var(--text2); }
-.tabs { display: flex; height: 100%; margin-left: 4px; overflow-x: auto; }
-.tab { display: flex; align-items: center; gap: 6px; padding: 0 16px; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 13px; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; text-transform: uppercase; user-select: none; border-right: 1px solid var(--border); white-space: nowrap; }
-.tab:hover { color: var(--text); background: var(--bg3); }
-.tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(79,142,247,0.05); }
-.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-.user-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--green); padding: 3px 10px; border: 1px solid rgba(61,220,132,0.2); background: rgba(61,220,132,0.05); letter-spacing: 1px; }
-.discord-btn { display: flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(88,101,242,0.15); border: 1px solid rgba(88,101,242,0.3); color: #7289da; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
-.discord-btn:hover { background: rgba(88,101,242,0.25); }
-.sidebar { background: var(--bg2); border-right: 1px solid var(--border); padding: 12px 0; overflow-y: auto; }
-.sidebar-section { padding: 6px 12px 2px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1.5px; text-transform: uppercase; }
-.sidebar-item { display: flex; align-items: center; gap: 8px; padding: 7px 16px; color: var(--text2); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.1s; border-left: 2px solid transparent; }
-.sidebar-item:hover { color: var(--text); background: var(--bg3); }
-.sidebar-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,142,247,0.06); }
-.sidebar-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); flex-shrink: 0; }
-.sidebar-item.active .dot { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
-.content { overflow-y: auto; background: var(--bg); }
-.page { display: none; padding: 20px; }
-.page.active { display: block; }
-.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-.page-title { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text3); letter-spacing: 2px; }
-.page-title span { color: var(--accent); }
-.site-card { background: var(--bg2); border: 1px solid var(--border); margin-bottom: 12px; overflow: hidden; }
-.site-card-top { padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.site-info { display: flex; flex-direction: column; gap: 4px; }
-.site-name { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: var(--accent); letter-spacing: 1px; }
-.site-desc { font-size: 12px; color: var(--text2); font-family: 'Share Tech Mono', monospace; }
-.site-open-btn { flex-shrink: 0; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--green); padding: 6px 12px; border: 1px solid rgba(61,220,132,0.3); background: rgba(61,220,132,0.08); transition: all 0.15s; cursor: pointer; white-space: nowrap; }
-.site-open-btn:hover { background: rgba(61,220,132,0.18); }
-.dropdown { border-top: 1px solid var(--border); }
-.dropdown-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); letter-spacing: 1px; user-select: none; transition: background 0.1s; }
-.dropdown-toggle:hover { background: var(--bg3); color: var(--text); }
-.dropdown-arrow { transition: transform 0.2s; font-size: 10px; }
-.dropdown-body { display: none; padding: 8px 16px 12px; border-top: 1px solid var(--border); background: rgba(0,0,0,0.2); }
-.dropdown-body.open { display: block; }
-.alt-btn { display: block; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); padding: 6px 0; border-bottom: 1px solid var(--border); transition: color 0.1s; cursor: pointer; word-break: break-all; background: none; border-left: none; border-right: none; border-top: none; width: 100%; text-align: left; }
-.alt-btn:last-child { border-bottom: none; }
-.alt-btn:hover { color: var(--accent); }
-.alt-btn::before { content: '▸ '; color: var(--text3); }
-.discord-warn { margin-top: 16px; background: var(--bg2); border: 1px solid rgba(247,201,79,0.2); }
-.discord-warn-toggle { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--yellow); letter-spacing: 1px; user-select: none; transition: background 0.1s; }
-.discord-warn-toggle:hover { background: var(--bg3); }
-.discord-warn-arrow { transition: transform 0.2s; font-size: 10px; }
-.discord-warn-body { display: none; padding: 12px 16px; border-top: 1px solid rgba(247,201,79,0.2); }
-.discord-warn-body.open { display: block; }
-.discord-warn-body a { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #7289da; text-decoration: none; }
-.discord-warn-body a:hover { text-decoration: underline; }
-#iframeOverlay { display: none; position: fixed; inset: 0; z-index: 500; flex-direction: column; background: var(--bg); }
-#iframeOverlay.open { display: flex; }
-.iframe-bar { height: 36px; background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 12px; gap: 10px; flex-shrink: 0; }
-.iframe-title { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text2); letter-spacing: 1px; flex: 1; }
-.iframe-close { font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 3px 10px; background: rgba(247,79,79,0.1); border: 1px solid rgba(247,79,79,0.3); color: var(--red); cursor: pointer; transition: all 0.15s; letter-spacing: 1px; }
-.iframe-close:hover { background: rgba(247,79,79,0.2); }
-#siteFrame { flex: 1; border: none; width: 100%; }
-.credits-card { background: var(--bg2); border: 1px solid var(--border); max-width: 500px; }
-.credits-card-header { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 8px 16px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; }
-.credits-card-body { padding: 20px; }
-.credit-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-.credit-row:last-child { border-bottom: none; }
-.credit-key { color: var(--text2); font-weight: 500; }
-.credit-val { color: var(--accent); font-family: 'Share Tech Mono', monospace; font-size: 12px; }
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border2); }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos - Acceso Protegido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* SETTINGS */
-.settings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 16px; }
-.settings-card { background: var(--bg2); border: 1px solid var(--border); overflow: hidden; }
-.settings-card-header { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 8px 16px; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; }
-.settings-card-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-.setting-row { display: flex; flex-direction: column; gap: 6px; }
-.setting-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
-.setting-input { background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-family: 'Share Tech Mono', monospace; font-size: 12px; padding: 7px 10px; outline: none; transition: border-color 0.15s; width: 100%; }
-.setting-input:focus { border-color: var(--accent); }
-.prefabs-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.prefab-btn { width: 28px; height: 28px; border: 2px solid transparent; cursor: pointer; transition: all 0.15s; border-radius: 2px; }
-.prefab-btn:hover { transform: scale(1.15); border-color: var(--text2); }
-.prefab-btn.active-prefab { border-color: #fff; }
-.setting-apply-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 7px 14px; background: rgba(79,142,247,0.15); border: 1px solid rgba(79,142,247,0.3); color: var(--accent); cursor: pointer; transition: all 0.15s; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
-.setting-apply-btn:hover { background: rgba(79,142,247,0.25); }
-.setting-reset-btn { font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 7px 14px; background: rgba(247,79,79,0.1); border: 1px solid rgba(247,79,79,0.3); color: var(--red); cursor: pointer; transition: all 0.15s; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
-.setting-reset-btn:hover { background: rgba(247,79,79,0.2); }
-.color-preview { width: 100%; height: 6px; margin-top: 4px; transition: background 0.2s; }
-.hint { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text3); }
-</style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-login:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Estilos para la página de juegos */
+        .games-container {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .games-content {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+        }
+
+        .games-content h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .game-button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .game-button:hover {
+            transform: scale(1.05);
+        }
+
+        .game-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Estilos para el reproductor de video */
+        .video-container {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .exit-video {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 100;
+        }
+
+        .exit-video:hover {
+            background: #ddd;
+        }
+    </style>
 </head>
 <body>
 
-<div id="lockscreen">
-  <div class="lock-box" id="lockBox">
-    <div class="lock-title">EDM<span>/</span>HUB — <span>ACCESO RESTRINGIDO</span></div>
-    <div class="lock-user" id="lockUser"></div>
-    <div class="lock-label">Contraseña</div>
-    <input class="lock-input" type="password" id="passInput" maxlength="30" placeholder="······" onkeydown="if(event.key==='Enter') checkPass()" />
-    <div class="lock-error" id="lockError"></div>
-    <button class="lock-btn" onclick="checkPass()">▶ ENTRAR</button>
-  </div>
-  <div class="lock-footer">Accede al servidor de testeo</div>
-</div>
-
-<div id="iframeOverlay">
-  <div class="iframe-bar">
-    <span class="iframe-title" id="iframeTitle">cargando...</span>
-    <button class="iframe-close" onclick="closeIframe()">✕ CERRAR</button>
-  </div>
-  <iframe id="siteFrame" src="" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-</div>
-
-<div id="app">
-<div class="shell">
-  <header class="topbar">
-    <div class="topbar-logo">EDM<span>/</span>HUB</div>
-    <nav class="tabs">
-      <div class="tab active" data-tab="enlaces" onclick="switchTab('enlaces')">◈ Enlaces</div>
-      <div class="tab" data-tab="credits" onclick="switchTab('credits')">◉ Créditos</div>
-      <div class="tab" data-tab="settings" onclick="switchTab('settings')">⚙ Ajustes</div>
-    </nav>
-    <div class="topbar-right">
-      <div class="user-badge" id="userBadge">◉ usuario</div>
-      <div class="discord-btn" onclick="alert('Discord próximamente...')">⚡ Discord</div>
-    </div>
-  </header>
-
-  <aside class="sidebar">
-    <div class="sidebar-section">Navegación</div>
-    <div class="sidebar-item active" id="sb-enlaces" onclick="switchTab('enlaces')"><div class="dot"></div> Enlaces</div>
-    <div class="sidebar-item" id="sb-credits" onclick="switchTab('credits')"><div class="dot"></div> Créditos</div>
-    <div class="sidebar-item" id="sb-settings" onclick="switchTab('settings')"><div class="dot"></div> Ajustes</div>
-  </aside>
-
-  <main class="content">
-    <div class="page active" id="page-enlaces">
-      <div class="page-header">
-        <div class="page-title">/ <span>enlaces</span></div>
-      </div>
-
-      <!-- Celestial -->
-      <div class="site-card">
-        <div class="site-card-top">
-          <div class="site-info">
-            <div class="site-name">Celestial</div>
-            <div class="site-desc">Navegador desbloqueado</div>
-          </div>
-          <button class="site-open-btn" onclick="openIframe('c_main','Celestial')">▶ ABRIR</button>
-        </div>
-        <div class="dropdown">
-          <div class="dropdown-toggle" onclick="toggleDropdown(this)">
-            ▸ ENLACES ALTERNATIVOS <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-body">
-            <button class="alt-btn" onclick="openIframe('c_1','Celestial — Alt 1')">flight.airlinemeals.net</button>
-            <button class="alt-btn" onclick="openIframe('c_2','Celestial — Alt 2')">edu.arnet-ag.ch</button>
-            <button class="alt-btn" onclick="openIframe('c_3','Celestial — Alt 3')">class.art-motel.com</button>
-            <button class="alt-btn" onclick="openIframe('c_4','Celestial — Alt 4')">science.bostoncareercounselor.com</button>
-            <button class="alt-btn" onclick="openIframe('c_5','Celestial — Alt 5')">celestial.galtex.ca</button>
-            <button class="alt-btn" onclick="openIframe('c_6','Celestial — Alt 6')">eduk12.langebro.com</button>
-            <button class="alt-btn" onclick="openIframe('c_7','Celestial — Alt 7')">k12.thenme.net</button>
-            <button class="alt-btn" onclick="openIframe('c_8','Celestial — Alt 8')">aristotle.lins2000.com</button>
-            <button class="alt-btn" onclick="openIframe('c_9','Celestial — Alt 9')">edu.swe.net</button>
-            <button class="alt-btn" onclick="openIframe('c_10','Celestial — Alt 10')">history.tribeoftwo.com</button>
-            <button class="alt-btn" onclick="openIframe('c_11','Celestial — Alt 11')">computers.networkindia.com</button>
-            <button class="alt-btn" onclick="openIframe('c_12','Celestial — Alt 12')">k12.cspcorp.com</button>
-            <button class="alt-btn" onclick="openIframe('c_13','Celestial — Alt 13')">k12.cowin-eng.com</button>
-            <button class="alt-btn" onclick="openIframe('c_14','Celestial — Alt 14')">pics.backriverphotography.com</button>
-            <button class="alt-btn" onclick="openIframe('c_15','Celestial — Alt 15')">k12.rusticrivergear.com</button>
-            <button class="alt-btn" onclick="openIframe('c_16','Celestial — Alt 16')">www.childsite.org</button>
-            <button class="alt-btn" onclick="openIframe('c_17','Celestial — Alt 17')">cdn.childsite.org</button>
-            <button class="alt-btn" onclick="openIframe('c_18','Celestial — Alt 18')">edu.justinsteiger.com</button>
-            <button class="alt-btn" onclick="openIframe('c_19','Celestial — Alt 19')">edu.mattflack.com</button>
-            <button class="alt-btn" onclick="openIframe('c_20','Celestial — Alt 20')">123.2660010.com</button>
-            <button class="alt-btn" onclick="openIframe('c_21','Celestial — Alt 21')">edu.pittentrepreneur.com</button>
-            <button class="alt-btn" onclick="openIframe('c_22','Celestial — Alt 22')">english.bostoncareercounselor.com</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="cineby">
-        <div class="cine-card-top">
-          <div class="cine-info">
-            <div class="cine-name">Cineby</div>
-            <div class="cine-desc">Servicios de streaming GRATIS</div>
-          </div>
-          <button class="site-open-btn" onclick="openIframe('c_cineby','Cineby')">▶ ABRIR</button>
-        </div>
-      </div>
-
-      <div class="discord-warn">
-        <div class="discord-warn-toggle" onclick="toggleDiscordWarn(this)">
-          ⚠ Si no funciona ninguno unirse a...
-          <span class="discord-warn-arrow">▼</span>
-        </div>
-        <div class="discord-warn-body">
-          <a href="https://discord.gg/m9vFcUk4Ee" target="_blank">discord.gg/m9vFcUk4Ee</a>
-        </div>
-      </div>
+    <!-- Pantalla de login -->
+    <div class="login-container" id="loginContainer">
+        <h1>🎮 Juegos</h1>
+        <form id="loginForm" onsubmit="checkPassword(event)">
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" placeholder="Ingresa la contraseña" required>
+            </div>
+            <button type="submit" class="btn-login">Acceder</button>
+        </form>
+        <div class="error-message" id="errorMessage">❌ Contraseña incorrecta</div>
     </div>
 
-    <div class="page" id="page-credits">
-      <div class="page-header"><div class="page-title">/ <span>créditos</span></div></div>
-      <div class="credits-card">
-        <div class="credits-card-header">about / team</div>
-        <div class="credits-card-body">
-          <div class="credit-row"><span class="credit-key">Desarrollador</span><span class="credit-val">Álvaro D. (Alvs)</span></div>
-          <div class="credit-row"><span class="credit-key">Web</span><span class="credit-val">HTML / CSS / JS</span></div>
-          <div class="credit-row"><span class="credit-key">Hosting</span><span class="credit-val">GitHub Pages</span></div>
-          <div class="credit-row"><span class="credit-key">Año</span><span class="credit-val">2026</span></div>
+    <!-- Pantalla de juegos -->
+    <div class="games-container" id="gamesContainer">
+        <div class="games-content">
+            <h2>🎮 Selecciona un Juego</h2>
+            <button class="game-button" onclick="playGame()">▶️ Jugar</button>
+            <button class="game-button" onclick="logout()">🚪 Salir</button>
         </div>
-      </div>
     </div>
-    <div class="page" id="page-settings">
-      <div class="page-header"><div class="page-title">/ <span>ajustes</span></div></div>
-      <div class="settings-grid">
 
-        <!-- Acento -->
-        <div class="settings-card">
-          <div class="settings-card-header">Color de acento</div>
-          <div class="settings-card-body">
-            <div class="setting-row">
-              <div class="setting-label">Prefabs</div>
-              <div class="prefabs-row" id="accentPrefabs"></div>
-            </div>
-            <div class="setting-row">
-              <div class="setting-label">Color personalizado</div>
-              <input type="color" class="setting-input" id="accentCustom" value="#4f8ef7" style="padding:2px;height:36px;cursor:pointer">
-              <div class="color-preview" id="accentPreview" style="background:#4f8ef7"></div>
-            </div>
-            <button class="setting-apply-btn" onclick="applyAccent()">▶ APLICAR</button>
-          </div>
-        </div>
-
-        <!-- Fondo -->
-        <div class="settings-card">
-          <div class="settings-card-header">Color de fondo</div>
-          <div class="settings-card-body">
-            <div class="setting-row">
-              <div class="setting-label">Prefabs</div>
-              <div class="prefabs-row" id="bgPrefabs"></div>
-            </div>
-            <div class="setting-row">
-              <div class="setting-label">Color personalizado</div>
-              <input type="color" class="setting-input" id="bgCustom" value="#0a0c10" style="padding:2px;height:36px;cursor:pointer">
-              <div class="color-preview" id="bgPreview" style="background:#0a0c10"></div>
-            </div>
-            <button class="setting-apply-btn" onclick="applyBg()">▶ APLICAR</button>
-          </div>
-        </div>
-
-        <!-- Tab del navegador -->
-        <div class="settings-card">
-          <div class="settings-card-header">Pestaña del navegador</div>
-          <div class="settings-card-body">
-            <div class="setting-row">
-              <div class="setting-label">Título de la pestaña</div>
-              <input class="setting-input" id="tabTitleInput" placeholder="EjerciciosDeMatematicas">
-            </div>
-            <div class="setting-row">
-              <div class="setting-label">Prefabs rápidos</div>
-              <div class="prefabs-row" style="flex-direction:column;gap:4px">
-                <button class="setting-apply-btn" style="width:100%;text-align:left" onclick="setTabTitle('Google Classroom')">Google Classroom</button>
-                <button class="setting-apply-btn" style="width:100%;text-align:left" onclick="setTabTitle('Google Drive')">Google Drive</button>
-                <button class="setting-apply-btn" style="width:100%;text-align:left" onclick="setTabTitle('Khan Academy')">Khan Academy</button>
-              </div>
-            </div>
-            <div style="display:flex;gap:8px">
-              <button class="setting-apply-btn" onclick="applyTabTitle()">▶ APLICAR</button>
-              <button class="setting-reset-btn" onclick="resetTabTitle()">↺ RESET</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Reset todo -->
-        <div class="settings-card">
-          <div class="settings-card-header">Reset</div>
-          <div class="settings-card-body">
-            <div class="hint">Restaura todos los ajustes visuales al estado original.</div>
-            <button class="setting-reset-btn" onclick="resetAll()">↺ RESETEAR TODO</button>
-          </div>
-        </div>
-
-      </div>
+    <!-- Contenedor de video -->
+    <div class="video-container" id="videoContainer">
+        <button class="exit-video" onclick="exitFullscreen()">✕ Salir</button>
+        <video id="gameVideo" controls>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
     </div>
-  </main>
-</div>
-</div>
 
-<script>
-const USERS = {
-  'branchacces':    '05483a164153415b5d75c8970c9d6f33cb31cb517ee0bd13225cd375813b2ce5',
-};
+    <script>
+        const correctPassword = "1234";
+        const loginContainer = document.getElementById("loginContainer");
+        const gamesContainer = document.getElementById("gamesContainer");
+        const videoContainer = document.getElementById("videoContainer");
+        const gameVideo = document.getElementById("gameVideo");
+        const errorMessage = document.getElementById("errorMessage");
 
-const URLS = {
-  c_main: atob('aHR0cHM6Ly9sYXVuY2gubmV3bGlmZXNhbmN0dWFyeWNodXJjaC5jb20='),
-  c_cineby: ('cineby.sc'),
-  c_1:  atob('aHR0cHM6Ly9mbGlnaHQuYWlybGluZW1lYWxzLm5ldC8='),
-  c_2:  atob('aHR0cHM6Ly9lZHUuYXJuZXQtYWcuY2gv'),
-  c_3:  atob('aHR0cHM6Ly9jbGFzcy5hcnQtbW90ZWwuY29tLw=='),
-  c_4:  atob('aHR0cHM6Ly9zY2llbmNlLmJvc3RvbmNhcmVlcmNvdW5zZWxvci5jb20v'),
-  c_5:  atob('aHR0cHM6Ly9jZWxlc3RpYWwuZ2FsdGV4LmNhLw=='),
-  c_6:  atob('aHR0cHM6Ly9lZHVrMTIubGFuZ2Vicm8uY29tLw=='),
-  c_7:  atob('aHR0cHM6Ly9rMTIudGhlbm1lLm5ldC8='),
-  c_8:  atob('aHR0cHM6Ly9hcmlzdG90bGUubGluczIwMDAuY29tLw=='),
-  c_9:  atob('aHR0cHM6Ly9lZHUuc3dlLm5ldC8='),
-  c_10: atob('aHR0cHM6Ly9oaXN0b3J5LnRyaWJlb2Z0d28uY29tLw=='),
-  c_11: atob('aHR0cHM6Ly9jb21wdXRlcnMubmV0d29ya2luZGlhLmNvbS8='),
-  c_12: atob('aHR0cHM6Ly9rMTIuY3NwY29ycC5jb20v'),
-  c_13: atob('aHR0cHM6Ly9rMTIuY293aW4tZW5nLmNvbS8='),
-  c_14: atob('aHR0cHM6Ly9waWNzLmJhY2tyaXZlcnBob3RvZ3JhcGh5LmNvbS8='),
-  c_15: atob('aHR0cHM6Ly9rMTIucnVzdGljcml2ZXJnZWFyLmNvbS8='),
-  c_16: atob('aHR0cHM6Ly93d3cuY2hpbGRzaXRlLm9yZy8='),
-  c_17: atob('aHR0cHM6Ly9jZG4uY2hpbGRzaXRlLm9yZy8='),
-  c_18: atob('aHR0cHM6Ly9lZHUuanVzdGluc3RlaWdlci5jb20v'),
-  c_19: atob('aHR0cHM6Ly9lZHUubWF0dGZsYWNrLmNvbS8='),
-  c_20: atob('aHR0cHM6Ly8xMjMuMjY2MDAxMC5jb20v'),
-  c_21: atob('aHR0cHM6Ly9lZHUucGl0dGVudHJlcHJlbmV1ci5jb20v'),
-  c_22: atob('aHR0cHM6Ly9lbmdsaXNoLmJvc3RvbmNhcmVlcmNvdW5zZWxvci5jb20v'),
-};
+        function checkPassword(event) {
+            event.preventDefault();
+            const passwordInput = document.getElementById("password");
+            const password = passwordInput.value;
 
-let currentUser = null;
+            if (password === correctPassword) {
+                errorMessage.style.display = "none";
+                loginContainer.style.display = "none";
+                gamesContainer.style.display = "flex";
+                passwordInput.value = "";
+            } else {
+                errorMessage.style.display = "block";
+                passwordInput.value = "";
+                passwordInput.focus();
+            }
+        }
 
-async function sha256(msg) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
+        function playGame() {
+            // Subir volumen
+            gameVideo.volume = 1;
 
-async function init() {
-  const hash = window.location.hash.replace('#','');
-  if (!hash || !USERS[hash]) { showNoUser(); return; }
-  currentUser = hash;
-  document.getElementById('lockUser').textContent = '▸ Usuario: ' + hash;
-}
+            // Pantalla completa
+            if (videoContainer.requestFullscreen) {
+                videoContainer.requestFullscreen().catch(err => {
+                    console.log("Error al entrar en pantalla completa:", err);
+                });
+            } else if (videoContainer.webkitRequestFullscreen) {
+                videoContainer.webkitRequestFullscreen();
+            } else if (videoContainer.mozRequestFullScreen) {
+                videoContainer.mozRequestFullScreen();
+            } else if (videoContainer.msRequestFullscreen) {
+                videoContainer.msRequestFullscreen();
+            }
 
-function showNoUser() {
-  document.getElementById('lockBox').innerHTML = `
-    <div class="lock-title">EDM<span>/</span>HUB — <span>ACCESO DENEGADO</span></div>
-    <div class="lock-no-user">✕ Usuario no reconocido<br><br>Necesitas un enlace de acceso válido.<br>Contacta con el administrador.</div>`;
-}
+            // Mostrar video
+            gamesContainer.style.display = "none";
+            videoContainer.style.display = "flex";
 
-async function checkPass() {
-  if (!currentUser) return;
-  const val = document.getElementById('passInput').value;
-  const err = document.getElementById('lockError');
-  const input = document.getElementById('passInput');
-  const hash = await sha256(val);
-  if (hash === USERS[currentUser]) {
-    document.getElementById('lockscreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('userBadge').textContent = '◉ ' + currentUser;
-    loadSavedSettings();
-  } else {
-    err.textContent = '✕ CONTRASEÑA INCORRECTA';
-    input.classList.add('error');
-    input.value = '';
-    setTimeout(() => { input.classList.remove('error'); err.textContent = ''; }, 1500);
-  }
-}
+            // Reproducir video
+            gameVideo.play();
+        }
 
-function openIframe(key, title) {
-  const url = URLS[key];
-  if (!url) return;
-  document.getElementById('iframeTitle').textContent = title;
-  document.getElementById('siteFrame').src = url;
-  document.getElementById('iframeOverlay').classList.add('open');
-}
+        function exitFullscreen() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else if (document.webkitFullscreenElement) {
+                document.webkitExitFullscreen();
+            } else if (document.mozFullScreenElement) {
+                document.mozCancelFullScreen();
+            } else if (document.msFullscreenElement) {
+                document.msExitFullscreen();
+            }
 
-function closeIframe() {
-  document.getElementById('iframeOverlay').classList.remove('open');
-  document.getElementById('siteFrame').src = '';
-}
+            videoContainer.style.display = "none";
+            gamesContainer.style.display = "flex";
+            gameVideo.pause();
+        }
 
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
-  document.querySelector('[data-tab="'+tab+'"]')?.classList.add('active');
-  document.getElementById('page-'+tab)?.classList.add('active');
-  document.getElementById('sb-'+tab)?.classList.add('active');
-}
+        function logout() {
+            gamesContainer.style.display = "none";
+            loginContainer.style.display = "flex";
+            document.getElementById("password").focus();
+        }
 
-function toggleDropdown(toggle) {
-  const body = toggle.nextElementSibling;
-  body.classList.toggle('open');
-  toggle.querySelector('.dropdown-arrow').style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
-}
+        // Permitir salir de pantalla completa con ESC
+        document.addEventListener("fullscreenchange", function() {
+            if (!document.fullscreenElement) {
+                exitFullscreen();
+            }
+        });
 
-function toggleDiscordWarn(toggle) {
-  const body = toggle.nextElementSibling;
-  body.classList.toggle('open');
-  toggle.querySelector('.discord-warn-arrow').style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
-}
+        // Permitir salir con la tecla ESC
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape" && videoContainer.style.display === "flex") {
+                exitFullscreen();
+            }
+        });
+    </script>
 
-// ── SETTINGS ──
-const ACCENT_PREFABS = ['#4f8ef7','#e05c5c','#3ddc84','#f7c94f','#c47ef7','#f77e4f','#4ff7e0','#f74fa8'];
-const BG_PREFABS     = ['#0a0c10','#0d0a10','#0a100c','#10080a','#080c10','#1a1a1a','#0e0e12','#100e08'];
-
-function buildPrefabs() {
-  const ap = document.getElementById('accentPrefabs');
-  const bp = document.getElementById('bgPrefabs');
-  ACCENT_PREFABS.forEach(c => {
-    const b = document.createElement('button');
-    b.className = 'prefab-btn'; b.style.background = c; b.title = c;
-    b.onclick = () => { document.getElementById('accentCustom').value = c; document.getElementById('accentPreview').style.background = c; applyAccent(c); };
-    ap.appendChild(b);
-  });
-  BG_PREFABS.forEach(c => {
-    const b = document.createElement('button');
-    b.className = 'prefab-btn'; b.style.background = c; b.title = c;
-    b.style.border = '2px solid #333';
-    b.onclick = () => { document.getElementById('bgCustom').value = c; document.getElementById('bgPreview').style.background = c; applyBg(c); };
-    bp.appendChild(b);
-  });
-  document.getElementById('accentCustom').oninput = e => document.getElementById('accentPreview').style.background = e.target.value;
-  document.getElementById('bgCustom').oninput = e => document.getElementById('bgPreview').style.background = e.target.value;
-}
-
-function hexToRgb(hex) {
-  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-  return `${r},${g},${b}`;
-}
-
-function darken(hex, amt) {
-  let r = Math.max(0,parseInt(hex.slice(1,3),16)-amt);
-  let g = Math.max(0,parseInt(hex.slice(3,5),16)-amt);
-  let b = Math.max(0,parseInt(hex.slice(5,7),16)-amt);
-  return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
-}
-
-function lighten(hex, amt) {
-  let r = Math.min(255,parseInt(hex.slice(1,3),16)+amt);
-  let g = Math.min(255,parseInt(hex.slice(3,5),16)+amt);
-  let b = Math.min(255,parseInt(hex.slice(5,7),16)+amt);
-  return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
-}
-
-function applyAccent(c) {
-  const color = c || document.getElementById('accentCustom').value;
-  const root = document.documentElement;
-  root.style.setProperty('--accent', color);
-  root.style.setProperty('--accent2', darken(color, 30));
-  localStorage.setItem('edm_accent_' + (currentUser||'default'), color);
-}
-
-function applyBg(c) {
-  const color = c || document.getElementById('bgCustom').value;
-  const root = document.documentElement;
-  root.style.setProperty('--bg', color);
-  root.style.setProperty('--bg2', lighten(color, 8));
-  root.style.setProperty('--bg3', lighten(color, 14));
-  root.style.setProperty('--border', lighten(color, 30));
-  root.style.setProperty('--border2', lighten(color, 45));
-  localStorage.setItem('edm_bg_' + (currentUser||'default'), color);
-}
-
-function applyTabTitle() {
-  const val = document.getElementById('tabTitleInput').value.trim();
-  if (val) { document.title = val; localStorage.setItem('edm_title_' + (currentUser||'default'), val); }
-}
-
-function setTabTitle(title) {
-  document.getElementById('tabTitleInput').value = title;
-  document.title = title;
-  localStorage.setItem('edm_title_' + (currentUser||'default'), title);
-}
-
-function resetTabTitle() {
-  document.title = 'EjerciciosDeMatematicas';
-  document.getElementById('tabTitleInput').value = '';
-  localStorage.removeItem('edm_title_' + (currentUser||'default'));
-}
-
-function resetAll() {
-  const u = currentUser || 'default';
-  localStorage.removeItem('edm_accent_' + u);
-  localStorage.removeItem('edm_bg_' + u);
-  localStorage.removeItem('edm_title_' + u);
-  document.documentElement.removeAttribute('style');
-  document.title = 'EjerciciosDeMatematicas';
-  document.getElementById('accentCustom').value = '#4f8ef7';
-  document.getElementById('bgCustom').value = '#0a0c10';
-  document.getElementById('accentPreview').style.background = '#4f8ef7';
-  document.getElementById('bgPreview').style.background = '#0a0c10';
-  document.getElementById('tabTitleInput').value = '';
-}
-
-function loadSavedSettings() {
-  const u = currentUser || 'default';
-  const accent = localStorage.getItem('edm_accent_' + u);
-  const bg     = localStorage.getItem('edm_bg_' + u);
-  const title  = localStorage.getItem('edm_title_' + u);
-  if (accent) { applyAccent(accent); document.getElementById('accentCustom').value = accent; document.getElementById('accentPreview').style.background = accent; }
-  if (bg)     { applyBg(bg);         document.getElementById('bgCustom').value = bg;         document.getElementById('bgPreview').style.background = bg; }
-  if (title)  { document.title = title; document.getElementById('tabTitleInput').value = title; }
-}
-
-// ── PANIC KEY: Shift + < → Google Classroom ──
-document.addEventListener('keydown', e => {
-  if (e.shiftKey && (e.key === '<' || e.key === ',' || e.code === 'IntlBackslash')) {
-    window.location.replace('https://classroom.google.com');
-  }
-});
-
-init();
-buildPrefabs();
-</script>
 </body>
 </html>
